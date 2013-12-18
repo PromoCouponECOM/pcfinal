@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <head>
+        <title>Simple markers</title>
+        <style>
+            html, body{
+                height: 100%;
+                margin: 0px;
+                padding: 0px
+            }
+        </style>
+        
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script>
+            var map;
+            function initialize() {
+                var mapOptions = {zoom: 13,disableDefaultUI: true};
+                            
+                var content =  document.getElementById('content').value;
+                var address =  document.getElementById('adr').value;    
+                var arrayAddress = address.split("%");
+                var arrayContent = content.split("%");
+                
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                
+                var contentString = '<div id="content">' +
+                        '<h1 id="firstHeading" class="firstHeading">Titre</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p>contenu</p>' +
+                        '<p>lien <a href="http://en.wikipedia.org/w/index.php?title=Uluru&amp;oldid=297882194"> detail</a> </p>' +
+                        '</div>' +
+                        '</div>';
+                
+                var infowindow = new google.maps.InfoWindow({content: contentString});    
+                
+                for(var i in arrayAddress){
+                    convertAddress(arrayAddress[i],infowindow,arrayContent[i]);
+                    console.log(arrayAddress[i]);
+                    console.log(arrayContent[i]);
+                }
+                
+                // Try HTML5 geolocation
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var pos = new google.maps.LatLng(position.coords.latitude,
+                                position.coords.longitude);
+                        map.setCenter(pos);
+                    }, function() {
+                        handleNoGeolocation(true);
+                    });
+                } else {
+                    // Browser doesn't support Geolocation
+                    handleNoGeolocation(false);
+                }
+            }
+
+            function convertAddress(adr, infowindow,cont){
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': adr}, function(results, status) {
+                  if (status === google.maps.GeocoderStatus.OK) {
+                      var o = new google.maps.LatLng(results[0].geometry.location.lat(),
+                                results[0].geometry.location.lng());
+                      displayMarker(o,infowindow, cont);        
+                  } 
+                }); 
+            }
+            
+            function displayMarker(offre,infowindow, cont){
+                
+                var marker = new google.maps.Marker({
+                    position: offre,
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'mouseover', function() { 
+                    infowindow.content=cont;
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.close(map, marker);
+                });
+            }
+            
+            
+            function handleNoGeolocation(errorFlag) {
+                if (errorFlag) {
+                    var content = 'Error: The Geolocation service failed.';
+                } else {
+                    var content = 'Error: Your browser doesn\'t support geolocation.';
+                }
+
+                var options = {
+                    map: map,
+                    position: new google.maps.LatLng(45.1767, 5.7267),
+                    content: content
+                };
+
+                var infowindow = new google.maps.InfoWindow(options);
+                map.setCenter(options.position);
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+    </head>
+    <body>
+        <div id="map-canvas" style="width: 50%; height: 80%">
+            <input id="adr" value="#{offreMBean.offreList}" type="hidden"></input>
+            <input id="content" value="#{offreMBean.offreContent}" type="hidden"></input>
+        </div>
+    </body>
+</html>

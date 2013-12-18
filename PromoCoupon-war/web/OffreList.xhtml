@@ -99,7 +99,13 @@
                         <f:facet name="header">
                             <h:outputText value="IdE"/>
                         </f:facet>
-                        <h:outputText value="#{item.idE}"/>
+                        <h:outputText value="#{item.idE.adrE.numEtRue}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="IdE"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idE.adrE.ville}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
