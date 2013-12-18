@@ -4,6 +4,7 @@
  */
 package managedbeans;
 
+import entities.Adresse;
 import entities.Offre;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -154,5 +155,33 @@ public class OffreMBean implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public String getOffreList(){
+        if(offres==null || offres.isEmpty())
+            offres = offreManager.getAllOffre();
+        
+        String res = "";
+        Adresse adr;
+        for(int i=0; i< offres.size(); i++){
+            adr = offres.get(i).getIdE().getAdrE();
+            res += adr.getNumEtRue() + ","+adr.getVille();
+            if(i<offres.size()-1){
+                res += "%";
+            }
+        }
+        return res;
+    }
+    
+    public String getOffreContent(){
+        String res = "";
+        for(Offre o : offres){
+            res += "<div id=\"content\">";
+            res += "<h1>"+o.getTitle()+"</h1>";
+            res += "<p>"+o.getDscription()+"</p>";
+            res += "<p> <a href=\"OffreList.xhtml?id="+o.getIdO()+"\"> Détail </a> </p>%";
+        }
+        
+        return res.substring(0, res.length()-1);
     }
 }
