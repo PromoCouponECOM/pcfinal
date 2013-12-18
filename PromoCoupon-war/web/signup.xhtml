@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"> 
-    <h:head>
+    <h:head> 
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="css/menu.css" />
@@ -179,15 +179,18 @@
                     </div>
                 </nav>
                 <article>
-                    <div id="client_title">
-                        Vous-êtes un nouveau client?
+                    <div id="client_title" align="center">
+                        <p:outputLabel><h3> Vous-êtes un nouveau client?</h3></p:outputLabel>
                     </div>
-                    <div id="client_section">
-                        Inscrivez-vous dès maintenant est profitez nos nombreuses offres ! Ba ouais morray.
+                    <div id="client_section" align="center">
+                        <p:outputLabel><h3>Inscrivez-vous dès maintenant est profitez nos nombreuses offres ! Ba ouais morray.</h3></p:outputLabel>
                     </div>
                     <h:form>
                         <table align="center" cellspacing="10">
                             <tbody>
+                                <tr>
+                                    <td colspan="4" align="left"><p:messages  id="messages" showDetail="true" autoUpdate="true"/></td>
+                                </tr>
                                 <tr>
                                     <td class="titres" align="left" colspan="4" ><b> Vos informations personnelles </b></td>							
                                 </tr>
@@ -199,23 +202,23 @@
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Nom* :</b></td>
-                                    <td align="left"><h:inputText id="nom" value="#{inscriptionUserMBean.settings['nom']}" requiredMessage="Saisir votre nom" required="true" size="24" maxlength="24"></h:inputText></td>
+                                    <td align="left"><h:inputText id="nom" value="#{inscriptionUserMBean.settings['nom']}" requiredMessage="Saisiez votre nom" required="true" size="24" maxlength="24"></h:inputText></td>
                                     <td align="right"><b> Pr&eacute;nom* :</b></td>					
-                                    <td align="left"><h:inputText id="prenom" value="#{inscriptionUserMBean.settings['prenom']}" requiredMessage="Saisir votre prénom" required="true" size="24" maxlength="24"></h:inputText></td>									
+                                    <td align="left"><h:inputText id="prenom" value="#{inscriptionUserMBean.settings['prenom']}" requiredMessage="Saisiez votre prénom" required="true" size="24" maxlength="24"></h:inputText></td>									
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Adresse :</b></td>
                                     <td colspan="4" align="left"><h:inputText id="adresse" value="#{inscriptionUserMBean.settings['rue']}"  size="88" maxlength="88"></h:inputText></td>								
                                 </tr>
                                 <tr>
-                                    <td align="right"><b> Code postal* :</b></td>
-                                    <td align="left"><h:inputText id="postal" value="#{inscriptionUserMBean.settings['code']}" onkeypress="IsNum(event)" size="24" maxlength="5"></h:inputText></td>
+                                    <td align="right"><b> Code postal :</b></td>
+                                    <td align="left"><h:inputText id="postal" value="#{inscriptionUserMBean.settings['code']}"  onkeypress="IsNum(event)" size="24" maxlength="5"></h:inputText></td>
                                     <td align="right"><b> Ville :</b></td>					
                                     <td align="left"><h:inputText id="ville" value="#{inscriptionUserMBean.settings['ville']}" size="24" maxlength="24"></h:inputText></td>									
                                 </tr>
                                 <tr>
                                     <td align="right"><b> T&eacute;l&eacute;phone :</b></td>
-                                    <td align="left"><h:inputText id="telephone" value="#{inscriptionUserMBean.settings['tel']}" size="24" maxlength="10"></h:inputText></td>								
+                                    <td align="left"><h:inputText id="telephone" value="#{inscriptionUserMBean.settings['tel']}" onkeypress="IsNum(event)" size="24" maxlength="10"></h:inputText></td>								
                                 </tr>
                                 <tr>
                                     <td colspan="4" align="left"><b> &nbsp; </b></td>								
@@ -224,17 +227,17 @@
                                     <td class="titres" colspan="4" align="left"><b> Vos identifiants </b></td>								
                                 </tr>
                                 <tr>
-                                     <p:messages  id="messages" showDetail="true" autoUpdate="true"/> 
+
                                 </tr>
                                 <tr>
                                     <td align="right"><b> E-mail* :</b></td>
                                     <td align="left"><h:inputText id="email"  value="#{inscriptionUserMBean.settings['mail']}" required="true" size="24" maxlength="40"
-                                                                  requiredMessage="Please enter your email address."
-                                                                  validatorMessage="Invalid email format"
+                                                                  requiredMessage="Saisiez votre email"
+                                                                  validatorMessage="email invalid "
                                                                   >
-                                   
-                                        <f:validateRegex
-                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                                            <f:validateRegex
+                                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 
                                         </h:inputText></td>
                                     <td align="right">&nbsp; &nbsp; <b> Confirmation e-mail* :</b></td>				
@@ -242,17 +245,15 @@
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Mot de passe* :</b></td>
-                                    <td align="left"><p:password id="password" value="#{inscriptionUserMBean.settings['pwd']}" required="true" match="password2" size="24" maxlength="24" requiredMessage="Saisir votre password" validatorMessage="Pwd ne corresponds pas à la confirmation" ></p:password></td>
+                                    <td align="left"><p:password id="password" value="#{inscriptionUserMBean.settings['pwd']}" required="true" match="password2" size="24" maxlength="24" requiredMessage="Saisiez votre mot de passe" validatorMessage="Mot de passe ne corresponds pas à la confirmation" ></p:password></td>
                                     <td align="right">&nbsp; &nbsp; <b> Confirmation mot de passe* :</b></td>					
-                                    <td align="left"><p:password id="password2" value="#{inscriptionUserMBean.settings['pwd']}" requiredMessage="Saisir votre password" required="true" size="24" maxlength="24"></p:password></td>									
+                                    <td align="left"><p:password id="password2" value="#{inscriptionUserMBean.settings['pwd']}" requiredMessage="Saisiez la comfirmation" required="true" size="24" maxlength="24"></p:password></td>									
                                 </tr>
                                 <tr>
                                     <td colspan="4" align="left"><b> &nbsp; </b></td>								
                                 </tr>
                                 <tr>
-
-                                    <td colspan="4" align="center"><h:commandButton id="update" value="Validate" action="#{inscriptionUserMBean.save()}"/></td>
-
+                                    <td colspan="4" align="right"><p:commandButton id="update" update="table" ajax="false" value="Validater" action="#{inscriptionUserMBean.save()}"/></td>
                                 </tr>
                             </tbody>
                         </table>

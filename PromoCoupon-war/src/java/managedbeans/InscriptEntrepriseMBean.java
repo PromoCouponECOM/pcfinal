@@ -16,12 +16,13 @@ import javax.inject.Named;
 import session.AdresseManager;
 import session.EntrepriseManager;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
  * @author John624
  */
-
 @Named(value = "inscripEntrepriseMBean")
 @RequestScoped
 public class InscriptEntrepriseMBean implements Serializable {
@@ -31,25 +32,25 @@ public class InscriptEntrepriseMBean implements Serializable {
     private AdresseManager adrM;
     @EJB
     private EntrepriseManager entM;
-    
     private Adresse adr;
     private Entreprise entrp;
-            
+
     public InscriptEntrepriseMBean() {
-        settings= new HashMap<String,String>();
+        settings = new HashMap<String, String>();
         adr = new Adresse();
         entrp = new Entreprise();
     }
-    
-    
-    public void init (){
+
+    public void init() {
         adrM = new AdresseManager();
         entM = new EntrepriseManager();
     }
-    
-    
-    public String save(){
-        
+
+    public String save() {
+        if (entM.emailUsed(settings.get("mailE"))) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email erreur", "Email utilisé pour inscription"));
+            return "signup_Entreprise";
+        }
         //update db adresse
         adr.setIdAdresse(adrM.nextId());
         adr.setNumEtRue(settings.get("rue"));
@@ -59,7 +60,7 @@ public class InscriptEntrepriseMBean implements Serializable {
         adr.setCodePostale(settings.get("code"));
         adr.setDateModif(new Date());
         adrM.update(adr);
-        
+
         entrp.setIdE(entM.nextId());
         entrp.setMailE(settings.get("mailE"));
         entrp.setNomE(settings.get("nomE"));
@@ -73,11 +74,11 @@ public class InscriptEntrepriseMBean implements Serializable {
         entrp.setDateModif(new Date());
         entrp.setValidation(new Integer(0));
         entM.update(entrp);
-        
-        return "EntrepriseList";
+
+        return "offresEntreprise";
     }
-    
-     public Map<String, String> getSettings() {
+
+    public Map<String, String> getSettings() {
         return settings;
     }
 }

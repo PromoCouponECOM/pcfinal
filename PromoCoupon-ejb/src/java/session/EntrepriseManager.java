@@ -58,4 +58,9 @@ public class EntrepriseManager {
         Entreprise res = (Entreprise)query.getResultList().get(0);        
         return res;
     }
+        public boolean emailUsed(String mail) {
+        Query query = em.createNamedQuery("Entreprise.findByMailE");
+        query.setParameter("mailE", mail);
+        return !query.getResultList().isEmpty();
+    }
 }

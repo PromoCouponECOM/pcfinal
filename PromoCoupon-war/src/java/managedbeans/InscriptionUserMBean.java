@@ -13,6 +13,10 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.*;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import session.AdresseManager;
 import session.UtilisateurManager;
 
@@ -22,9 +26,9 @@ import session.UtilisateurManager;
  */
 @Named(value = "inscriptionUserMBean")
 @RequestScoped
-
 public class InscriptionUserMBean implements Serializable {
-
+    @ManagedProperty("#{sessionMBean}")
+    private SessionMBean sm;
     private Map<String, String> settings;
     @EJB
     private AdresseManager adrM;
@@ -45,10 +49,11 @@ public class InscriptionUserMBean implements Serializable {
     }
 
     public String save() {
-        if( userM.emailUsed(settings.get("mail")) ){
-            return "ERROR.xhtml?msg=EmailExisted";
+        if (userM.emailUsed(settings.get("mail"))) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email erreur", "Email utilisé pour inscription"));
+            return "signup";
         }
-        
+
         adr.setIdAdresse(adrM.nextId());
         adr.setNumEtRue(settings.get("rue"));
         adr.setComple(settings.get("compl"));
@@ -68,8 +73,10 @@ public class InscriptionUserMBean implements Serializable {
         user.setAdrU(adr);
         user.setDataModif(new Date());
         userM.update(user);
-
-        return "UtilisateurList";
+        // do sign in 
+        //sm.userConnect(user.getMailU(), user.getPassU());
+        userM.authUtilisateur(user.getMailU(),user.getPassU() );
+        return "index";
     }
 
     public Map<String, String> getSettings() {

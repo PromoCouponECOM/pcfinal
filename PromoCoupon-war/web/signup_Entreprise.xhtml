@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head> 
+    <h:head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/signup.css" />
         <link rel="stylesheet" href="css/toolbar.css" />
@@ -57,7 +57,7 @@
                     </div>
                     <div id="navigation">
                         <ul>
-                            <li><a href="OffresEntreprise.xhtml" style="color:#000000;">Votre Offres</a></li>
+                            <li><a href="offresEntreprise.xhtml" style="color:#000000;">Votre Offres</a></li>
                             <li><a href="CompteEntrepries.xhtml" style="color:#FFFFFF;"> Votre Compte</a></li>
                         </ul>
                     </div>
@@ -79,17 +79,17 @@
 
             <section>
                 <article>
-                    <div id="client_title">
-                        Vous-êtes un nouveau client entreprise?
+                    <div id="client_title" align="center">
+                        <p:outputLabel><h3>Vous-êtes un nouveau client entreprise?</h3></p:outputLabel>
                     </div>
-                    <div id="client_section">
-                        Inscrivez-vous dès maintenant et profitez ! Ba ouais morray.
+                    <div id="client_section" align="center">
+                         <p:outputLabel><h3>Inscrivez-vous dès maintenant et profitez ! Ba ouais morray.</h3></p:outputLabel>
                     </div>
                     <h:form >
                         <table align="center" cellspacing="10">
                             <tbody>
                                 <tr>
-                                    <p:messages  id="messages" showDetail="true" autoUpdate="true"/> 
+                                    <td colspan="4" align="left"> <p:messages  id="messages" showDetail="true" autoUpdate="true"/></td>
                                 </tr>  
                                 <tr>
 
@@ -97,28 +97,28 @@
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Nom* :</b></td>
-                                    <td align="left"><p:inputText id="nom" value="#{inscriptEntrepriseMBean.settings['nomE']}"  type="text" size="24" maxlength="24"></p:inputText></td>
+                                    <td align="left"><p:inputText id="nom" value="#{inscriptEntrepriseMBean.settings['nomE']}" required="true" type="text" size="24" maxlength="24"></p:inputText></td>
                                     <td align="right"><b> Numéro siret* :</b></td>					
-                                    <td align="left"><p:inputText id="siret" value="#{inscriptEntrepriseMBean.settings['siret']}" onkeypress="IsNum(event)" type="text"  size="24" maxlength="24"></p:inputText></td>														</tr>
+                                    <td align="left"><p:inputText id="siret" value="#{inscriptEntrepriseMBean.settings['siret']}" required="true" onkeypress="IsNum(event)" type="text"  size="24" maxlength="24"></p:inputText></td>														</tr>
                                 <tr>
                                     <td align="right"><b> Rib* :</b></td>
-                                    <td align="left"><p:inputText id="rib" value="#{inscriptEntrepriseMBean.settings['rib']}" type="text" size="30" maxlength="30"></p:inputText></td>
+                                    <td align="left"><p:inputText id="rib" value="#{inscriptEntrepriseMBean.settings['rib']}" required="true" type="text" size="30" maxlength="30"></p:inputText></td>
                                     <td align="right"><b> Resposable* :</b></td>
-                                    <td align="left"><p:inputText id="consultE" value="#{inscriptEntrepriseMBean.settings['consulE']}" type="text" size="24" maxlength="24"></p:inputText></td>
+                                    <td align="left"><p:inputText id="consultE" value="#{inscriptEntrepriseMBean.settings['consulE']}" required="true" type="text" size="24" maxlength="24"></p:inputText></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Adresse *:</b></td>
-                                    <td colspan="4" align="left"><p:inputText id="adresse" value="#{inscriptEntrepriseMBean.settings['rue']}" type="text"  size="50" maxlength="80"></p:inputText></td>								
+                                    <td colspan="4" align="left"><p:inputText id="adresse" value="#{inscriptEntrepriseMBean.settings['rue']}" required="true" type="text"  size="100" maxlength="80"></p:inputText></td>								
                                 </tr>
                                 <tr>
                                     <td align="right"><b> Code postal* :</b></td>
-                                    <td align="left"><p:inputText id="postal" value="#{inscriptEntrepriseMBean.settings['code']}" type="text" size="24" maxlength="5"></p:inputText></td>
-                                    <td align="right"><b> Ville :</b></td>					
-                                    <td align="left"><p:inputText id="ville" value="#{inscriptEntrepriseMBean.settings['ville']}" type="text" size="24" maxlength="24"></p:inputText></td>									
+                                    <td align="left"><p:inputText id="postal" value="#{inscriptEntrepriseMBean.settings['code']}" required="true" type="text" size="24" maxlength="5"></p:inputText></td>
+                                    <td align="right"><b> Ville *:</b></td>					
+                                    <td align="left"><p:inputText id="ville" value="#{inscriptEntrepriseMBean.settings['ville']}" required="true" type="text" size="24" maxlength="24"></p:inputText></td>									
                                 </tr>
                                 <tr>
                                     <td align="right"><b> T&eacute;l&eacute;phone :</b></td>
-                                    <td align="left"><p:inputText id="telephone" value="#{inscriptEntrepriseMBean.settings['telE']}" type="text"  size="24" maxlength="10"></p:inputText></td>								
+                                    <td align="left"><p:inputText id="telephone" value="#{inscriptEntrepriseMBean.settings['telE']}" required="true" type="text"  size="24" maxlength="10"></p:inputText></td>								
                                 </tr>
                                 <tr>
                                     <td colspan="4" align="left"><b> &nbsp; </b></td>								
@@ -129,8 +129,8 @@
                                 <tr>
                                     <td align="right"><b> E-mail* :</b></td>
                                     <td align="left"><h:inputText id="email"  value="#{inscriptEntrepriseMBean.settings['mailE']}" required="true" size="24" maxlength="40"
-                                                                  requiredMessage="Please enter your email address."
-                                                                  validatorMessage="Invalid email format"
+                                                                  requiredMessage="Saisiez votre email"
+                                                                  validatorMessage="Email invalid "
                                                                   >
 
                                             <f:validateRegex
@@ -150,7 +150,10 @@
                                     <td colspan="4" align="left"><b> &nbsp; </b></td>								
                                 </tr>
                                 <tr>
-                                    <td colspan="4" align="center"><h:commandButton id="update" value="Inscrire" action="#{inscriptEntrepriseMBean.save()}"/></td>									
+                                    <td align="left"><b> &nbsp; </b></td>
+                                    <td align="right"><b> &nbsp; </b></td>
+                                    <td align="left"><b> &nbsp; </b></td>
+                                    <td align="left"><h:commandButton id="update" value="Inscrire" action="#{inscriptEntrepriseMBean.save()}"/></td>									
                                 </tr>
                             </tbody>
                         </table>
