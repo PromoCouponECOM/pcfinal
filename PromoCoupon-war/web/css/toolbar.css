@@ -70,14 +70,34 @@ aside
 	top: 0px;
 }
  
-#articles li:hover .submenu
+#options li:hover .submenu
 {
 }
 
-#articles li:hover #search,#searche
+#options li:hover #search,#searche
 {
 	position:absolute;
 	display: inline-block;
 	right:100%;
 	top:0px;
 }
+#panier a{
+	margin: 0;
+	padding: 0;
+	width:400px;
+	height:100px;
+	display:none;
+	right: 100%;
+	position: absolute;
+	top:0px;
+	background: rgba(30, 170, 140, .3);
+	}
+#articles ul li:hover #panier a
+{ 	
+	position:absolute;
+	display:inline-block;
+	right:100%;
+	top:0px;
+}
+	
+
