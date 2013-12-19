@@ -74,8 +74,9 @@ public class InscriptionUserMBean implements Serializable {
         user.setDataModif(new Date());
         userM.update(user);
         // do sign in 
-        //sm.userConnect(user.getMailU(), user.getPassU());
+        sm.userConnect(user.getMailU(), user.getPassU());
         userM.authUtilisateur(user.getMailU(),user.getPassU() );
+        System.out.println(sm.isConnectedAsCustomer());
         return "index";
     }
 
