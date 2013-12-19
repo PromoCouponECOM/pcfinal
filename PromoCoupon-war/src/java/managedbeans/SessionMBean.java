@@ -16,6 +16,7 @@ import session.AdresseManager;
 import session.EntrepriseManager;
 import session.UtilisateurManager;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import panier.Panier;
 import session.CouponManager;
 import session.OffreManager;
@@ -24,6 +25,7 @@ import session.OffreManager;
  *
  * @author John624
  */
+@ManagedBean
 @Named(value = "sessionMBean")
 @SessionScoped
 public class SessionMBean implements Serializable {

@@ -273,26 +273,37 @@
             </footer>
         </div>
 
-        <aside>			 
+             <aside>			 
             <div id="articles" class="barredoutils">
                 <ul>
-                    <li><a href="#"><img src="icones/Search.png" width="50%" height="50%" /></a>
+                    <li><a href="#"><img class="menus" src="icones/Cart.png" width="80%" height="25%"/></a>
+                        <div id="panier">
+                            <a href="panier.xhtml"><p:outputLabel><h3>Votre Panier</h3></p:outputLabel>
+                                <p:dataTable var="of" value="#{sessionMBean.getOffresPanier()}">
+                                    <h:outputText value=""/>
+                                </p:dataTable>
+                                <p:commandButton value="Paiement" action="payement"/>
+
+                            </a>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <div id="options" class="barredoutils">
+                <ul>
+                    <li><a href="#"><img src="icones/history.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Search.png" width="75%" height="75%" /></a>
                         <div id="coucou" class="submenu">
-                            <form id="search" action="#" methode="get" class="serchform">
+                            <form id="search" action="#" method="get" class="serchform">
                                 <input id="searche" type="text" name="q"></input>
                                 <button type="submit" title="Chercher" class="button">ok</button>
                             </form>
                         </div>
                     </li>
-                    <li><a href="#"><img src="icones/history.png" width="50%" height="50%" /></a></li>
-                    <li><a href="#"><img src="icones/Cart.png" width="50%" height="50%" /></a></li>
-                </ul>
-            </div>
-            <div id="options" class="barredoutils">
-                <ul>
-                    <li><a href="#"><img src="icones/Globe.png" width="50%" height="50%" /></a></li>
-                    <li><a href="#"><img src="icones/Email.png" width="50%" height="50%" /></a></li>
-                    <li><a href="#"><img src="icones/Light.png" width="50%" height="50%" /></a></li>
+                    <li> <a href="mailto:promocoupon.service@gmail.com?subject=subject&amp;"><img src="icones/Email.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Globe.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Light.png" width="75%" height="75%" onmouseover="PF('bar').show()" onmouseout="PF('bar').hide()"/></a></li>
                 </ul>
             </div>             
         </aside>

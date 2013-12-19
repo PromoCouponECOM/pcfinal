@@ -2,23 +2,23 @@ aside
 {	position:fixed;
 	float:right;
 	margin-right:0px;
-    width: 3%;
+  width: 5%;
 	height:100%;
 	top : 0px;
 	right:0px;
 	background-color: #004D2F;
 	background-image:-webkit-linear-gradient(right, #00AE6A 0%, #004D2F 100%);
 	background-image:linear-gradient(to left, #00AE6A 0%, #004D2F 100%);
-    vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 /*classe barredoutils regroupe articles et options*/
 .barredoutils
 {
 	margin-top: 50px;
-    height:250px;
-    width:100%;
-    float:left;
+  height:150px;
+  width:100%;
+  float:left;
 	text-align:left;
 	font-size: 14px;
 }

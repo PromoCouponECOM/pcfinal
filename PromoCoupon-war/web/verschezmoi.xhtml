@@ -1,310 +1,323 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head>
-		<meta charset="utf-8" />
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> 
+    <h:head> 
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" href="css/menu.css" />
-		<link rel="stylesheet" href="css/villes.css" />
-		<link rel="stylesheet" href="css/toolbar.css" />
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
-                <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        		
-                <script type="text/javascript">
-		$(document).ready(function(){
-			$('#boxLogin').hide(); //Si l'utilisateur a javascript on cache la box de login pour pas surcharger la page
+        <link rel="stylesheet" href="css/menu.css" />
+        <link rel="stylesheet" href="css/villes.css" />
+        <link rel="stylesheet" href="css/toolbar.css" />
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-			$('.click_connect').click(function(){
-				$('#boxLogin').fadeIn(400);
-			});
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#boxLogin').hide(); //Si l'utilisateur a javascript on cache la box de login pour pas surcharger la page
 
-			$('.fermer').click(function(){
-				$('#boxLogin').fadeOut(400);
-			});
+                $('.click_connect').click(function() {
+                    $('#boxLogin').fadeIn(400);
+                });
 
-			$('#mdpPerdu').click(function(){
-				erreur("mdp_perdu");
-				return false;
-			});
+                $('.fermer').click(function() {
+                    $('#boxLogin').fadeOut(400);
+                });
 
-			$('.field').focus(function(){ //Supprime les textes par défauts des input lors du click sur ceux-ci
-				if($(this).val()=='Email' || $(this).val()=='Mot de passe' || $(this).val()=='Rechercher'){
-					$(this).val('');
-				}
-			});
-			
-			$('#listeVille').hide(); //Si l'utilisateur a javascript on cache l'affichage des villes
-			
-			$('.click_display_ville').click(function(){
-				if ($('#listeVille').is(':visible')) {
-					$('#listeVille').fadeOut(400);
-				}
-				else {
-					$('#listeVille').fadeIn(400);
-				}
-			});					
-		});
-		</script>
-		<script type="text/javascript" src="js/lieu.js"></script>
-		
-                
-                 <script>
-                var map;
-                function initialize() {
-                    var mapOptions = {zoom: 13,disableDefaultUI: true};
+                $('#mdpPerdu').click(function() {
+                    erreur("mdp_perdu");
+                    return false;
+                });
 
-                    var content =  document.getElementById('content').value;
-                    var address =  document.getElementById('adr').value;    
-                    var arrayAddress = address.split("%");
-                    var arrayContent = content.split("%");
-
-                    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                    var infowindow = new google.maps.InfoWindow({content: 'contentString'});    
-
-                    for(var i in arrayAddress){
-                        convertAddress(arrayAddress[i],infowindow,arrayContent[i]);
+                $('.field').focus(function() { //Supprime les textes par défauts des input lors du click sur ceux-ci
+                    if ($(this).val() == 'Email' || $(this).val() == 'Mot de passe' || $(this).val() == 'Rechercher') {
+                        $(this).val('');
                     }
+                });
 
-                    // Try HTML5 geolocation
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            var pos = new google.maps.LatLng(position.coords.latitude,
-                                    position.coords.longitude);
-                            map.setCenter(pos);
-                        }, function() {
-                            handleNoGeolocation(true);
-                        });
-                    } else {
-                        // Browser doesn't support Geolocation
-                        handleNoGeolocation(false);
+                $('#listeVille').hide(); //Si l'utilisateur a javascript on cache l'affichage des villes
+
+                $('.click_display_ville').click(function() {
+                    if ($('#listeVille').is(':visible')) {
+                        $('#listeVille').fadeOut(400);
                     }
-                }
-
-                function convertAddress(adr, infowindow,cont){
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode( { 'address': adr}, function(results, status) {
-                      if (status === google.maps.GeocoderStatus.OK) {
-                          var o = new google.maps.LatLng(results[0].geometry.location.lat(),
-                                    results[0].geometry.location.lng());
-                          displayMarker(o,infowindow, cont);        
-                      } 
-                    }); 
-                }
-
-                function displayMarker(offre,infowindow, cont){
-
-                    var marker = new google.maps.Marker({
-                        position: offre,
-                        map: map
-                    });
-
-                    google.maps.event.addListener(marker, 'mouseover', function() { 
-                        infowindow.content=cont;
-                        infowindow.open(map, marker);
-                    });
-                    google.maps.event.addListener(marker, 'click', function() {
-                        infowindow.close(map, marker);
-                    });
-                }
-
-
-                function handleNoGeolocation(errorFlag) {
-                    if (errorFlag) {
-                        var content = 'Error: The Geolocation service failed.';
-                    } else {
-                        var content = 'Error: Your browser doesn\'t support geolocation.';
+                    else {
+                        $('#listeVille').fadeIn(400);
                     }
+                });
+            });
+        </script>
+        <script type="text/javascript" src="js/lieu.js"></script>
 
-                    var options = {
-                        map: map,
-                        position: new google.maps.LatLng(45.1767, 5.7267),
-                        content: content
-                    };
 
-                    var infowindow = new google.maps.InfoWindow(options);
-                    map.setCenter(options.position);
+        <script>
+            var map;
+            function initialize() {
+                var mapOptions = {zoom: 13, disableDefaultUI: true};
+
+                var content = document.getElementById('content').value;
+                var address = document.getElementById('adr').value;
+                var arrayAddress = address.split("%");
+                var arrayContent = content.split("%");
+
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                var infowindow = new google.maps.InfoWindow({content: 'contentString'});
+
+                for (var i in arrayAddress) {
+                    convertAddress(arrayAddress[i], infowindow, arrayContent[i]);
                 }
 
-                google.maps.event.addDomListener(window, 'load', initialize);
+                // Try HTML5 geolocation
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var pos = new google.maps.LatLng(position.coords.latitude,
+                                position.coords.longitude);
+                        map.setCenter(pos);
+                    }, function() {
+                        handleNoGeolocation(true);
+                    });
+                } else {
+                    // Browser doesn't support Geolocation
+                    handleNoGeolocation(false);
+                }
+            }
+
+            function convertAddress(adr, infowindow, cont) {
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'address': adr}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        var o = new google.maps.LatLng(results[0].geometry.location.lat(),
+                                results[0].geometry.location.lng());
+                        displayMarker(o, infowindow, cont);
+                    }
+                });
+            }
+
+            function displayMarker(offre, infowindow, cont) {
+
+                var marker = new google.maps.Marker({
+                    position: offre,
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'mouseover', function() {
+                    infowindow.content = cont;
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.close(map, marker);
+                });
+            }
+
+
+            function handleNoGeolocation(errorFlag) {
+                if (errorFlag) {
+                    var content = 'Error: The Geolocation service failed.';
+                } else {
+                    var content = 'Error: Your browser doesn\'t support geolocation.';
+                }
+
+                var options = {
+                    map: map,
+                    position: new google.maps.LatLng(45.1767, 5.7267),
+                    content: content
+                };
+
+                var infowindow = new google.maps.InfoWindow(options);
+                map.setCenter(options.position);
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
 
         </script>
         <title>Vers chez moi</title>
-    </head>
-    <body>
-		<div id="wrapper">
-			<header>
-				<nav>
-					<div id="titre_principal">
-						<a href="index.xhtml"><span id="promo">Promo</span><span id="coupon">Coupon</span></a>
-					</div>
-					<div id="navigation">
-						<ul>
-							<li><a href="index.xhtml" style="color:#FFFFFF;">Accueil</a></li>
-							<li><a href="touteslespromos.xhtml" style="color:#FFFFFF;"> Toutes les promos</a></li>
-							<li><a href="verschezmoi.xhtml" style="color:#FFFFFF; font-size:19px;">Vers chez moi</a></li>
-						</ul>
-					</div>
-					<div id="compte">						
-						<a href="#" class="click_connect">S'identifier</a> | <a href="signup.xhtml">S'inscrire</a>
-					</div>
-					<div id="boxLogin">
-						<h3>Votre Compte</h3>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="fermer" class="fermer" href="#">fermer</a>
-						<form action="" method="post" name="form_connexion">
-							<input class="loginField" name="email" type="text" style="width:150px; height:13px;" value="Email" />
-							<input class="loginField" name="password" type="password" style="width:150px; height:13px;" value="Mot de passe" />
-							<input name="submit" type="submit" value="ok"/>
-						</form>
-						<a id="mdpPerdu" href="#" style="font-size:11px;">Mot de passe perdu ?</a>
-					</div>
-				</nav>
-			</header>
-			
-			<section>
-				<nav>
-					<div id="lieu">
-						<a href="#" class="click_display_ville" title="Grenoble"><span id="nameLieu">Grenoble</span>&nbsp;<img src="icones/iconeVille.png"></img></a>
-						<ol id="listeVille">   
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Amiens', 'listeVille')">Amiens</a></li>						
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Lille', 'listeVille')">Lille</a></li>
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Nice', 'listeVille')">Nice</a></li>	
-							
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Bordeaux', 'listeVille')">Bordeaux</a></li>
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Lyon', 'listeVille')">Lyon</a></li>
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Paris', 'listeVille')">Paris</a></li>	
-												
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Dijon', 'listeVille')">Dijon</a></li>
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Marseille', 'listeVille')">Marseille</a></li>
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Strasbourg', 'listeVille')">Strasbourg</a></li>							
-												
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Grenoble', 'listeVille')">Grenoble</a></li>						
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Montpellier', 'listeVille')">Montpellier</a></li> 
-							<li><a href="#" class="click_display_ville" onclick="swichNameLieu('Toulouse', 'listeVille')">Toulouse</a></li> 																	  									
-						</ol>
-					</div>
-					<div id="categories">
-						<ul class="menu-deroulant">
-							<li><a href="touteslespromos.xhtml">Alimentation</a>
-								<ul>    
-									<li><a href="#" title="Resto">Resto</a></li>  
-									<li><a href="#" title="Aliment">Aliment</a></li>  
-									<li><a href="#" title="Boission">Boission</a></li>  
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Aventure/Loisirs</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Resto</a></li>  
-									<li><a href="#" title="Lien2">Aliment</a></li>  
-									<li><a href="#" title="Lien3">Boission</a></li>  
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Beaut&eacute; &amp; bien-&ecirc;tre</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Informatique/AudioVisuel</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Restauration</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Services</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Tickets</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Voyages/H&ocirc;tels</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-							<li><a href="touteslespromos.xhtml">Toutes les promos</a>
-								<ul>    
-									<li><a href="#" title="Lien1">Lien2</a></li>  
-									<li><a href="#" title="Lien2">Lien3</a></li>  
-									<li><a href="#" title="Lien3">Lien3</a></li>
-									<li><a href="#" title="Lien4">Lien4</a></li>  										
-								</ul>
-							</li>
-						</ul>
-					</div>
-					<div id="recherche">
-						<input class="field" type="text" name="recherche" maxlength="25" value="Rechercher" ></input>
-					</div>
-				</nav>
-				<article>
-					<div id="best" style="width: 100%; height: 100%">
-						<h1></h1>
-                                                 <div id="map-canvas"  style="width: 80%; height: 80%; min-height:500px; margin:0 auto; ">
-                                                    <input id="adr" value="#{offreMBean.offreList}" type="hidden"></input>
-                                                    <input id="content" value="#{offreMBean.offreContent}" type="hidden"></input>
-                                                </div>
-					</div>
-					<div id="news">
-						<h1>Le d&eacute;tail des promos vers chez moi</h1>
-						<p>Mettre les promotions vers chez moi ici</p>
-					</div>
-				</article>
-			</section>         
-			<footer>
-			Conditions d'utilisatio etc... gna gna gna
-			</footer>
-		</div>
-		
-		<aside>			 
-			<div id="articles" class="barredoutils">
-				<ul>
-					<li><a href="#"><img src="icones/Search.png" width="50%" height="50%" /></a>
-					<div id="coucou" class="submenu">
-					<form id="search" action="#" method="get" class="serchform">
-						<input id="searche" type="text" name="q"></input>
-						<button type="submit" title="Chercher" class="button">ok</button>
-						</form>
-					</div>
-					</li>
-					<li><a href="#"><img src="icones/history.png" width="50%" height="50%" /></a></li>
-					<li><a href="#"><img src="icones/Cart.png" width="50%" height="50%" /></a></li>
-				</ul>
-			</div>
-			<div id="options" class="barredoutils">
-				<ul>
-					<li><a href="#"><img src="icones/Globe.png" width="50%" height="50%" /></a></li>
-					<li><a href="#"><img src="icones/Email.png" width="50%" height="50%" /></a></li>
-					<li><a href="#"><img src="icones/Light.png" width="50%" height="50%" /></a></li>
-				</ul>
-			</div>             
-		</aside>
-		
-    </body>
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <header>
+                <nav>
+                    <div id="titre_principal">
+                        <a href="index.xhtml"><span id="promo">Promo</span><span id="coupon">Coupon</span></a>
+                    </div>
+                    <div id="navigation">
+                        <ul>
+                            <li><a href="index.xhtml" style="color:#FFFFFF;">Accueil</a></li>
+                            <li><a href="touteslespromos.xhtml" style="color:#FFFFFF;"> Toutes les promos</a></li>
+                            <li><a href="verschezmoi.xhtml" style="color:#FFFFFF; font-size:19px;">Vers chez moi</a></li>
+                        </ul>
+                    </div>
+                    <div id="compte">						
+                        <a href="#" class="click_connect">S'identifier</a> | <a href="signup.xhtml">S'inscrire</a>
+                    </div>
+                    <div id="boxLogin">
+                        <h3>Votre Compte</h3>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="fermer" class="fermer" href="#">fermer</a>
+                        <form action="" method="post" name="form_connexion">
+                            <input class="loginField" name="email" type="text" style="width:150px; height:13px;" value="Email" />
+                            <input class="loginField" name="password" type="password" style="width:150px; height:13px;" value="Mot de passe" />
+                            <input name="submit" type="submit" value="ok"/>
+                        </form>
+                        <a id="mdpPerdu" href="#" style="font-size:11px;">Mot de passe perdu ?</a>
+                    </div>
+                </nav>
+            </header>
+
+            <section>
+                <nav>
+                    <div id="lieu">
+                        <a href="#" class="click_display_ville" title="Grenoble"><span id="nameLieu">Grenoble</span>&nbsp;<img src="icones/iconeVille.png"></img></a>
+                        <ol id="listeVille">   
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Amiens', 'listeVille')">Amiens</a></li>						
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Lille', 'listeVille')">Lille</a></li>
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Nice', 'listeVille')">Nice</a></li>	
+
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Bordeaux', 'listeVille')">Bordeaux</a></li>
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Lyon', 'listeVille')">Lyon</a></li>
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Paris', 'listeVille')">Paris</a></li>	
+
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Dijon', 'listeVille')">Dijon</a></li>
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Marseille', 'listeVille')">Marseille</a></li>
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Strasbourg', 'listeVille')">Strasbourg</a></li>							
+
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Grenoble', 'listeVille')">Grenoble</a></li>						
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Montpellier', 'listeVille')">Montpellier</a></li> 
+                            <li><a href="#" class="click_display_ville" onclick="swichNameLieu('Toulouse', 'listeVille')">Toulouse</a></li> 																	  									
+                        </ol>
+                    </div>
+                    <div id="categories">
+                        <ul class="menu-deroulant">
+                            <li><a href="touteslespromos.xhtml">Alimentation</a>
+                                <ul>    
+                                    <li><a href="#" title="Resto">Resto</a></li>  
+                                    <li><a href="#" title="Aliment">Aliment</a></li>  
+                                    <li><a href="#" title="Boission">Boission</a></li>  
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Aventure/Loisirs</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Resto</a></li>  
+                                    <li><a href="#" title="Lien2">Aliment</a></li>  
+                                    <li><a href="#" title="Lien3">Boission</a></li>  
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Beaut&eacute; &amp; bien-&ecirc;tre</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Informatique/AudioVisuel</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Restauration</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Services</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Tickets</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Voyages/H&ocirc;tels</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                            <li><a href="touteslespromos.xhtml">Toutes les promos</a>
+                                <ul>    
+                                    <li><a href="#" title="Lien1">Lien2</a></li>  
+                                    <li><a href="#" title="Lien2">Lien3</a></li>  
+                                    <li><a href="#" title="Lien3">Lien3</a></li>
+                                    <li><a href="#" title="Lien4">Lien4</a></li>  										
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="recherche">
+                        <input class="field" type="text" name="recherche" maxlength="25" value="Rechercher" ></input>
+                    </div>
+                </nav>
+                <article>
+                    <div id="best" style="width: 100%; height: 100%">
+                        <h1></h1>
+                        <div id="map-canvas"  style="width: 80%; height: 80%; min-height:500px; margin:0 auto; ">
+                            <input id="adr" value="#{offreMBean.offreList}" type="hidden"></input>
+                            <input id="content" value="#{offreMBean.offreContent}" type="hidden"></input>
+                        </div>
+                    </div>
+                    <div id="news">
+                        <h1>Le d&eacute;tail des promos vers chez moi</h1>
+                        <p>Mettre les promotions vers chez moi ici</p>
+                    </div>
+                </article>
+            </section>         
+            <footer>
+                Conditions d'utilisatio etc... gna gna gna
+            </footer>
+        </div>
+
+        <aside>			 
+            <div id="articles" class="barredoutils">
+                <ul>
+                    <li><a href="#"><img class="menus" src="icones/Cart.png" width="80%" height="25%"/></a>
+                        <div id="panier">
+                            <a href="panier.xhtml"><p:outputLabel><h3>Votre Panier</h3></p:outputLabel>
+                                <p:dataTable var="of" value="#{sessionMBean.getOffresPanier()}">
+                                    <h:outputText value=""/>
+                                </p:dataTable>
+                                <p:commandButton value="Paiement" action="payement"/>
+
+                            </a>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <div id="options" class="barredoutils">
+                <ul>
+                    <li><a href="#"><img src="icones/history.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Search.png" width="75%" height="75%" /></a>
+                        <div id="coucou" class="submenu">
+                            <form id="search" action="#" method="get" class="serchform">
+                                <input id="searche" type="text" name="q"></input>
+                                <button type="submit" title="Chercher" class="button">ok</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li> <a href="mailto:promocoupon.service@gmail.com?subject=subject&amp;"><img src="icones/Email.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Globe.png" width="75%" height="75%" /></a></li>
+                    <li><a href="#"><img src="icones/Light.png" width="75%" height="75%" onmouseover="PF('bar').show()" onmouseout="PF('bar').hide()"/></a></li>
+                </ul>
+            </div>             
+        </aside>
+
+    </h:body>
 </html>
